@@ -5,9 +5,9 @@ function App() {
 
 
   return (
-    <div className="flex  items-center">
+    <div className="flex items-center h-screen">
       <Dashboard />
-      <div className="m-auto">
+      <div className="w-full h-screen">
         <Outlet />
       </div>
 
