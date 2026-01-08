@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 body, #root{
-  background-color: rgb(26, 26, 26);
+
   height: 100vh;
   box-sizing: border-box;
   border: none;
