@@ -1,4 +1,4 @@
-
+import ProductCard from "../components/ProductCard";
 
 export default function Store() {
 
@@ -30,7 +30,7 @@ export default function Store() {
 
         <div>
             <h1 className="font-bold text-2xl dark:text-gray-200 text-center mt-8">Shop Now</h1>
-            <div>
+            <div className="flex">
                 <div>
                     <h2 className="font-bold text-xl dark:text-white">Genres</h2>
                     <ul>
@@ -39,14 +39,17 @@ export default function Store() {
                         ))}
                     </ul>
                 </div>
-                <div>
+                <div className="flex justify-center items-center w-full">
                     {/*filter dropdown*/}
                     <div>
 
                     </div>
                     {/*books container*/}
-                    <div className="grid-cols-4">
-                        
+                    <div className="grid grid-cols-4 w-full">
+                        <ProductCard/>
+                        <ProductCard/>
+                        <ProductCard/>
+                        <ProductCard/>
                     </div>
                 </div>
 
