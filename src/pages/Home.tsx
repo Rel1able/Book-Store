@@ -1,20 +1,37 @@
-import BooksImage from "../assets/enrico-bet-lc7xcWebECc-unsplash.jpg"
+import { useState, useEffect } from "react";
 
-
-import { Link } from "react-router"
 export default function Home() {
+
+    const [games, setGames] = useState([]);
+
+
+    const API_KEY = import.meta.env.VITE_RAWG_API_KEY;
+
+    const url = `https://api.rawg.io/api/games?key=${API_KEY}`;
+    useEffect(() => {
+        async function getGames() {
+            const res = await fetch(url);
+            const data = await res.json();
+            setGames(data.results);
+            console.log(data.results);
+        }
+        getGames();
+    }, [])
+
     return (
-        <div className="h-screen mt-16">
-            <div className="flex flex-col gap-4 items-center">
-                <h1 className="text-4xl font-bold dark:text-white ">Open A Book,</h1>
-                <h1 className="text-4xl text-blue-500 font-bold">Open Your mind</h1>
-                <p className="dark:text-blue-500">Your next favorite book is just a page away.</p>
-                <img className="w-48 rounded-2xl" src={BooksImage} alt="Book image"/>
-                <button className="text-white rounded-2xl px-4 py-2 bg-blue-500 "><Link to="/store">Go to store</Link></button>
-         
-                
-               
-            </div>
+        <div className="flex flex-col gap-8 p-8">
+            <h1 className="text-center font-bold text-2xl dark:text-white">Featured Games</h1>
+            <ul className="grid w-full grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-8">
+                {games.map((game) => (
+                    <li className="relative h-64 w-full bg-cover bg-center rounded-lg flex flex-col justify-end items-center" style={{backgroundImage: `url(${game.background_image})`}}>
+                        <div className="absolute bottom-0 w-full h-15 backdrop-blur-md bg-black/40" />
+                        <div className="text-white p-2 w-full text-center absolute  z-10">
+                            <p className="">{game.name}</p>
+                            <p className="text-sm dark:text-white">⭐{game.rating}</p>
+                        </div>
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 }

@@ -11,7 +11,7 @@ export default function ProductCard({name = "Book Name", description = "book des
                     <h4 className="text-xl text-gray-700 font-bold">PRICE</h4>
                     <div className="font-bold text-2xl">${price}</div>
                 </div>
-                <button className="min-w-48 rounded-2xl px-2 py-4 bg-blue-500 text-white font-bold">Add to cart</button>
+                <button className="rounded-2xl px-2 py-4 bg-blue-500 text-white font-bold">Add to cart</button>
             </div>
         </div>
     )
