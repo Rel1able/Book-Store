@@ -1,4 +1,4 @@
-import { NavLink } from "react-router"
+import { NavLink, Link } from "react-router"
 import { CiHome, CiShoppingCart, CiHeart, CiStar } from "react-icons/ci"
 import { GiGamepad } from "react-icons/gi";
 import ThemeToggleBar from "./ThemeToggleBar";
@@ -16,7 +16,7 @@ export default function Dashboard() {
     return (
         <div className="w-52 h-full dark:text-gray-300">
 
-            <h1 className="text-2xl m-4 font-bold w-full flex items-center justify-center gap-2 w-full"><GiGamepad size={32} />Game Store</h1>
+            <h1 className="text-2xl m-4 font-bold w-full flex items-center justify-center gap-2 w-full"><GiGamepad size={32} /><Link to="/">Game Store</Link></h1>
             <nav>
                 <ul>
                     {listItems.map((item) => (

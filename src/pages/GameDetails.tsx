@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { RAWG_BASE_URL, RAWG_API_KEY } from "../config/api";
 import { getGamePrice } from "../utils/pricing";
-import { CiStar } from "react-icons/ci";
+import { formatDate } from "../utils/dateFormatting";
 
 export default function GameDetails() {
     const [game, setGame] = useState([]);
@@ -35,51 +35,45 @@ export default function GameDetails() {
             <div className="flex justify-start ">
                 <div className="h-full w-full">
                     <img className="mb-auto p-2 mt-4 rounded-3xl object-contain w-full" src={game.background_image} />
-                    <ul>
-                        <li>Website {game.website}</li>
-                        <li><CiStar size={32} />{game.rating}</li>
-                        <li>
-                            Developers:
-                            <ul>
-                                {game.developers.map((developer) => (
-                                    <li>{developer.name}</li>
-                                ))}
-                            </ul>
-                        </li>
-                            <li>
-                            Platforms:
-                            <ul>
-                                {game.platforms.map((platform) => (
-                                    <li>{platform.platform.name}</li>
-                                ))}
-                            </ul>
-                        </li>
-                        <li>
-                            Publishers:
-                            <ul>
-                                {game.publishers.map((publisher) => (
-                                    <li>{publisher.name}</li>
-                                ))}
-                            </ul>
-                        </li>
-                        <li>
-                            Genres:
-                            <ul>
-                                {game.genres.map((genre) => (
-                                    <li>{genre.name}</li>
-                                ))}
-                            </ul>
-                        </li>
-                    </ul>
                 </div>
 
-                <div className="p-4 flex flex-col gap-2 h-full w-[30%]">
-                    <div>
+                <div className="p-4 flex flex-col gap-2 h-full w-[40%]">
+                    <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded-2xl">
                         <h2 className="text-2xl font-bold dark:text-white">Description</h2>
                         <p className="dark:text-white overflow-scroll h-[50%] hide-scrollbar">{game.description_raw}</p>
                     </div>
+                    <div>
+                        <ul className="bg-gray-100 rounded-xl  flex-col flex gap-4 p-2 dark:bg-gray-800 dark:text-white">
+                            <li>Website <a href={game.website}>{game.website}</a></li>
+                            <li className="flex gap-2">
+                                Genres:
+                                <ul className="flex gap-2">
+                                    {game.genres?.map((genre) => (
+                                        <li>{genre.name}</li>
+                                    ))}
+                                </ul>
+                            </li>
+                            <li className="flex gap-2">
+                                Developers:
+                                <ul className="flex gap-2">
+                                    {game.developers?.map((developer) => (
+                                        <li>{developer.name}</li>
+                                    ))}
+                                </ul>
+                            </li>
+                            <li className="flex gap-2">
+                                Publishers:
+                                <ul className="flex gap-2">
+                                    {game.publishers?.map((publisher) => (
+                                        <li className="block whitespace-nowrap">{publisher.name}</li>
+                                    ))}
+                                </ul>
+                            </li>
 
-                    <div className="mt-2 flex text-2xl text-black justify-between p-2 font-bold bg-gray-100 rounded-xl dark:bg-gray-800 dark:text-white">
+                            <li>Release: {game.released ? formatDate(game.released) : "N/A"}</li>
+                        </ul>
+                    </div>
+                    <div className="mt-2 flex text-2xl justify-between p-2 font-bold bg-gray-100 rounded-xl dark:bg-gray-800 dark:text-white">
                         <div>{price} &euro;</div>
                         <button className="cursor-pointer">Add to cart +</button>
                     </div>
