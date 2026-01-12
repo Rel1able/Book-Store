@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { getGamePrice } from "../utils/pricing";
 import { Link } from "react-router"
 
-export default function ProductCard({ id, name, bgImage, rating }) {
+type Game = {
+    name: string
+    bgImage: string 
+    rating: number 
+    id:  number
+}
+
+export default function ProductCard({ id, name, bgImage, rating }: Game) {
 
     const [price, setPrice] = useState<number>();
 
