@@ -1,6 +1,8 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { getGamePrice } from "../utils/pricing";
-export default function ProductCard({ name, bgImage, rating}) {
+import { Link } from "react-router"
+
+export default function ProductCard({ id, name, bgImage, rating }) {
 
     const [price, setPrice] = useState<number>();
 
@@ -9,13 +11,18 @@ export default function ProductCard({ name, bgImage, rating}) {
         setPrice(price);
     }, [])
     return (
-        <li className="relative h-64 w-full bg-cover bg-center rounded-lg flex flex-col justify-end items-center" style={{ backgroundImage: `url(${bgImage})` }}>
-            <div className="absolute bottom-0 w-full h-15 backdrop-blur-md bg-black/40" />
-            <div className="text-white p-2 w-full text-center absolute  z-10">
-                <p className="">{name}</p>
-                <p className="text-sm dark:text-white">{price} &euro;</p>
+        <li className="flex flex-col bg-gray-100 rounded-xl pb-2 dark:bg-gray-800 dark:text-white">
+            <Link to={`/${id}`}><img className="rounded-xl w-full h-64 object-cover" src={bgImage} /></Link>
+
+            <div className="p-2">
+                <div className="flex justify-between text-gray-800 px-3 dark:text-gray-300">
+                    <button className="cursor-pointer">Add to cart +</button>
+                    <div>{price} &euro;</div>
+                </div>
+                <Link to={`/${id}`}><div className="text-xl font-bold pl-3">{name}</div></Link>
 
             </div>
+
         </li>
     )
 }

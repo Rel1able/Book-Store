@@ -31,16 +31,16 @@ export default function GameDetails() {
 
     return (
         <>
-            <h1 className="font-bold text-4xl text-center dark:text-white p-4">{game.name}</h1>
-            <div className="flex justify-start ">
+            <h1 className="font-bold text-4xl text-center dark:text-white p-2">{game.name}</h1>
+            <div className="flex justify-center items-center">
                 <div className="h-full w-full">
-                    <img className="mb-auto p-2 mt-4 rounded-3xl object-contain w-full" src={game.background_image} />
+                    <img className="mb-auto p-4 rounded-3xl object-contain w-full" src={game.background_image} />
                 </div>
 
-                <div className="p-4 flex flex-col gap-2 h-full w-[40%]">
-                    <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded-2xl">
+                <div className="p-4 flex flex-col gap-2  w-[40%]">
+                    <div className="bg-gray-100 dark:bg-gray-800 p-2  rounded-2xl">
                         <h2 className="text-2xl font-bold dark:text-white">Description</h2>
-                        <p className="dark:text-white overflow-scroll h-[50%] hide-scrollbar">{game.description_raw}</p>
+                        <p className="dark:text-white overflow-scroll h-128 hide-scrollbar">{game.description_raw}</p>
                     </div>
                     <div>
                         <ul className="bg-gray-100 rounded-xl  flex-col flex gap-4 p-2 dark:bg-gray-800 dark:text-white">
