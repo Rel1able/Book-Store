@@ -43,7 +43,7 @@ export default function Store({ queryString, title }: StoreProps) {
     return games.length > 0 ? (
         <div className="flex flex-col gap-8 p-8 justify-center items-center">
             <Searchbar setSearch={setSearch} />
-            <h1 className="text-center font-bold text-2xl dark:text-white">{title}</h1>
+            <h1 className="text-center w-full font-bold text-4xl dark:text-white">{title}</h1>
             <div className="relative w-full mb-2 bottom-6">
                 <Dropdown options={options} orderingValue={orderingValue} setOrderingValue={setOrderingValue} />
             </div>
