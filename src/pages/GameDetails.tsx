@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { RAWG_BASE_URL, RAWG_API_KEY } from "../config/api";
 import { getGamePrice } from "../utils/pricing";
 import { formatDate } from "../utils/dateFormatting";
 import { Loadingbar } from "../components/Loadingbar";
+import { IoIosArrowRoundBack } from "react-icons/io";
 
 type Genre = {
     name: string;
@@ -32,6 +33,7 @@ export default function GameDetails() {
     const [game, setGame] = useState<Game | null>();
     const [price, setPrice] = useState(0);
     const { gameId } = useParams();
+    const navigate = useNavigate();
 
     console.log(gameId);
 
@@ -56,7 +58,14 @@ export default function GameDetails() {
     }, [gameId])
     return game ? (
         <div>
-            <h1 className="font-bold text-4xl text-center dark:text-white p-2">{game.name}</h1>
+            <div className="flex items-center">
+                <button className="cursor-pointer dark:text-white" onClick={() => navigate(-1)}>
+                    <IoIosArrowRoundBack size={64} />
+                </button>
+
+                <h1 className="font-bold text-4xl text-center m-auto dark:text-white p-2">{game.name}</h1>
+            </div>
+
             <div className="flex justify-center items-center">
                 <div className="h-full w-full">
                     <img
@@ -68,17 +77,17 @@ export default function GameDetails() {
                 <div className="p-4 flex flex-col gap-2 w-[40%]">
                     <div className="p-2 rounded-2xl">
                         <h2 className="text-2xl font-bold dark:text-white">Description</h2>
-                        <p className="dark:text-white overflow-scroll h-96 hide-scrollbar">
-                            {game.description_raw}
+                        <p className="dark:text-white overflow-scroll h-72 hide-scrollbar">
+                            {game.description_raw || "N/A"}
                         </p>
                     </div>
 
                     <div>
-                        <ul className="bg-gray-100 rounded-xl flex-col flex gap-4 p-2 dark:bg-gray-600 dark:text-white">
+                        <ul className="bg-gray-100 rounded-xl flex-col flex gap-4 p-2 dark:bg-gray-600 dark:text-white flex-w">
                             <li>
                                 Website <a href={game.website}>{game.website}</a>
                             </li>
-                            <li className="flex gap-2">
+                            <li className="flex gap-2 flex-wr">
                                 Genres:
                                 <ul className="flex gap-2">
                                     {game.genres.map((genre) => (
@@ -88,7 +97,7 @@ export default function GameDetails() {
                             </li>
                             <li className="flex gap-2">
                                 Developers:
-                                <ul className="flex gap-2">
+                                <ul className="flex gap-2 flex-col">
                                     {game.developers.map((developer) => (
                                         <li key={developer.name}>{developer.name}</li>
                                     ))}
