@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Searchbar from "../components/Searchbar";
 import { RAWG_BASE_URL, RAWG_API_KEY } from "../config/api";
 import Dropdown from "./Dropdown";
+import { Loadingbar } from "./Loadingbar";
 
 type Game = {
     name: string
@@ -16,8 +17,7 @@ type StoreProps = {
     title: string;
     homepage: boolean;
 }
-export default function Store({ queryString, title}: StoreProps) {
-
+export default function Store({ queryString, title }: StoreProps) {
     const [orderingValue, setOrderingValue] = useState("-added");
     const [games, setGames] = useState([]);
     const [search, setSearch] = useState("");
@@ -30,6 +30,7 @@ export default function Store({ queryString, title}: StoreProps) {
 
     useEffect(() => {
         async function getGames() {
+            setGames([])
             const url = `${baseUrl}&search=${search}`
             const res = await fetch(url);
             const data = await res.json();
@@ -39,7 +40,7 @@ export default function Store({ queryString, title}: StoreProps) {
         getGames();
     }, [search, baseUrl, orderingValue])
 
-    return (
+    return games.length > 0 ? (
         <div className="flex flex-col gap-8 p-8 justify-center items-center">
             <Searchbar setSearch={setSearch} />
             <h1 className="text-center font-bold text-2xl dark:text-white">{title}</h1>
@@ -52,5 +53,7 @@ export default function Store({ queryString, title}: StoreProps) {
                 ))}
             </ul>
         </div>
-    )
+    ) : <div className="w-full h-full flex justify-center items-center">
+        <Loadingbar />
+    </div>
 }
