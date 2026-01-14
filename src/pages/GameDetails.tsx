@@ -5,6 +5,7 @@ import { getGamePrice } from "../utils/pricing";
 import { formatDate } from "../utils/dateFormatting";
 import { Loadingbar } from "../components/Loadingbar";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import ImageCarousel from "../components/ImageCarousel";
 
 type Genre = {
     name: string;
@@ -32,6 +33,9 @@ type Game = {
 export default function GameDetails() {
     const [game, setGame] = useState<Game | null>();
     const [price, setPrice] = useState(0);
+    const [gameScreenshots, setGameScreenshots] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const images = game ? [game.background_image, ...gameScreenshots.map(s => s.image)] : [];
     const { gameId } = useParams();
     const navigate = useNavigate();
 
@@ -53,9 +57,32 @@ export default function GameDetails() {
                 console.error(err);
             }
         }
+
+        async function getGameScreenshots(){
+            try {
+                const req = await fetch(`${RAWG_BASE_URL}/games/${gameId}/screenshots?key=${RAWG_API_KEY}`);
+                const res = await req.json();
+                setGameScreenshots(res.results);
+                console.log(res);
+
+            } catch (err) {
+                console.error(err);
+            }
+        }
         getGameDetails();
+        getGameScreenshots();
 
     }, [gameId])
+
+
+    function nextImage(){
+        setCurrentIndex(i => (i + 1) % images.length);
+    }
+
+    function prevImage(){
+         setCurrentIndex(i => (i - 1 + images.length) % images.length);
+    }
+
     return game ? (
         <div>
             <div className="flex items-center">
@@ -67,12 +94,13 @@ export default function GameDetails() {
             </div>
 
             <div className="flex justify-center items-center">
-                <div className="h-full w-full">
+                {/* <div className="h-full w-full">
                     <img
                         className="mb-auto p-4 rounded-3xl object-contain w-full"
                         src={game.background_image}
                     />
-                </div>
+                </div> */}
+                <ImageCarousel currentIndex={currentIndex} prevImage={prevImage} nextImage={nextImage} images={images} setIndex={setCurrentIndex}/>
 
                 <div className="p-4 flex flex-col gap-2 w-[40%]">
                     <div className="p-2 rounded-2xl">
