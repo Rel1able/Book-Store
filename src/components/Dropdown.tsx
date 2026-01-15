@@ -23,8 +23,8 @@ export default function Dropdown({ options, orderingValue, setOrderingValue }: D
             )}
 
             {open && (
-                options.map((option) => (
-                    <li className="p-1.5 rounded-xl hover:bg-gray-300 flex items-center justify-between dark:hover:bg-gray-900 " onClick={() => {
+                options.map((option, id) => (
+                    <li key={id} className="p-1.5 rounded-xl hover:bg-gray-300 flex items-center justify-between dark:hover:bg-gray-900 " onClick={() => {
                         setOrderingValue(option.value)
                         setOpen(false);
                     }} value={option.value}>{option.name} {orderingValue === option.value ? <FaCheck size={12} /> : ""}</li>

@@ -25,6 +25,7 @@ export default function Store({ queryString, title }: StoreProps) {
     const orderingValue = searchParams.get("ordering") ?? "-added";
     const currentPage = Number(searchParams.get("page") ?? 1);
     const [loading, setLoading] = useState(true);
+    const [totalPages, setTotalPages] = useState(10);
 
     const [games, setGames] = useState([]);
 
@@ -38,10 +39,7 @@ export default function Store({ queryString, title }: StoreProps) {
 
     }
 
-    const pageNumbers = [];
-    for (let i = 1; i <= 10; i++) {
-        pageNumbers.push(i);
-    }
+
 
     const options = [
         { name: "Popularity", value: "-added" },
@@ -56,12 +54,21 @@ export default function Store({ queryString, title }: StoreProps) {
             const res = await fetch(url);
             const data = await res.json();
             setGames(data.results);
+            const perPage = 20;
+            const pages = Math.ceil(data.count / perPage);
+            setTotalPages(Math.min(pages, 10));
             setLoading(false);
+            console.log(data);
             console.log(data.results);
         }
         getGames();
 
     }, [search, queryString, orderingValue, currentPage])
+
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+    }
 
     if (loading) {
         return <div className="w-full h-full flex justify-center items-center">
@@ -88,9 +95,9 @@ export default function Store({ queryString, title }: StoreProps) {
                 ))}
             </ul>
             <ul className="flex gap-2 justify-center mt-8">
-                {pageNumbers.map((number) => (
+                {pageNumbers.map((number, id) => (
 
-                    <li>
+                    <li key={id}>
                         <button className={`px-3 w-full py-1 rounded-full cursor-pointer font-bold hover:bg-blue-500 dark:text-white  ${currentPage === number ? `bg-blue-500` : `bg-gray-200 dark:bg-gray-800`}`} onClick={() => updateParams({ page: number })}>{number}</button>
                     </li>
                 ))}

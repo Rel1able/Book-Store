@@ -40,8 +40,8 @@ export default function Navbar() {
             <h1 className="text-2xl m-4 font-bold w-full flex items-center justify-center gap-2"><GiGamepad size={32} /><Link to="/">Game Store</Link></h1>
             <nav>
                 <ul>
-                    {listItems.map((item) => (
-                        <li className="m-4 text-xl"><NavLink to={item.link} className={({ isActive }) =>
+                    {listItems.map((item, id) => (
+                        <li key={id} className="m-4 text-xl"><NavLink to={item.link} className={({ isActive }) =>
                             `${navItemClass({ isActive })}`
                         }><span>{item.icon}</span>{item.name}</NavLink></li>
                     ))}
@@ -50,8 +50,8 @@ export default function Navbar() {
                 <div className="mt-6">
                     <h1 className="ml-4 font-bold text-2xl mb-4">Genres</h1>
                     <ul className="flex flex-col gap-2">
-                        {genresList.map((genre) => (
-                            <li className="ml-4 flex gap-2 text-xl"><NavLink to={genre.link} className={({isActive}) => `${navItemClass({ isActive })}`}><span>{genre.icon}</span>{genre.name}</NavLink></li>
+                        {genresList.map((genre, id) => (
+                            <li key={id} className="ml-4 flex gap-2 text-xl"><NavLink to={genre.link} className={({isActive}) => `${navItemClass({ isActive })}`}><span>{genre.icon}</span>{genre.name}</NavLink></li>
                         ))}
                     </ul>
                 </div>
