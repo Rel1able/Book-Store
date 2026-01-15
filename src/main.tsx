@@ -10,13 +10,13 @@ import AddedGames from './pages/AddedGames.tsx'
 import GenreGames from './pages/GenreGames.tsx'
 import PopularInYear from './pages/PopularInYear.tsx'
 import ErrorPage from './pages/ErrorPage.tsx'
-
+import { CartProvider } from './contexts/CartContext.tsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: [ 
+    children: [
       { path: "/", element: <StorePage /> },
       { path: "/favorite", element: <div className="text-white">Favorite</div> },
       { path: "/library", element: <AddedGames /> },
@@ -24,15 +24,18 @@ const router = createBrowserRouter([
       { path: "/games/genre/:gameGenre", element: <GenreGames /> },
       { path: "/games/popular-in-year", element: <PopularInYear /> }
     ],
-    errorElement: <ErrorPage/>
+    errorElement: <ErrorPage />
   }
 ])
 
 createRoot(document.getElementById('root')!).render(
-  
-    <ThemeProvider>
+
+  <ThemeProvider>
+    <CartProvider>
       <RouterProvider router={router} />
-    </ThemeProvider>
-  
+    </CartProvider>
+
+  </ThemeProvider>
+
 
 )

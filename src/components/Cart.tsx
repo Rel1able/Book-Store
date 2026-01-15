@@ -5,7 +5,7 @@ import type { Game } from "../types/game";
 import CartItem from "./CartItem";
 
 export default function Cart() {
-    const {cart, clearCart, removeFromCart} = useCart();
+    const { cart, clearCart, removeFromCart } = useCart();
     const games = JSON.parse(localStorage.getItem("cart") || "[]");
 
 
@@ -22,18 +22,25 @@ export default function Cart() {
     }, [cart])
 
     return (
-        <div className="fixed right-0 top-0 h-screen p-4 w-92 bg-gray-800 text-white text-center overflow-scroll hide-scrollbar ">
-            <div>
-                <div>{games.length} Games</div>
-                <button onClick={clearCart}>Clear</button>
+        <div className="fixed flex flex-col right-0 top-0 h-screen p-4 w-92 bg-white text-black dark:bg-gray-800 dark:text-white text-center overflow-scroll hide-scrollbar ">
+            <div className="flex justify-between p-2">
+                <div className="font-bold text-2xl">{games.length} Games</div>
+                <button className="text-2xl text-gray-600 dark:text-gray-400" onClick={clearCart}>Clear</button>
             </div>
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col gap-2 flex-1 overflow-y-auto hide-scrollbar p-2 m-2">
                 {gamesWithPrices.map((game: Game) => (
-                    <CartItem background_image={game.background_image} name={game.name} price={game.price} onClick={() => removeFromCart(game.id)}/>
+                    <CartItem background_image={game.background_image} name={game.name} price={game.price} onClick={() => removeFromCart(game.id)} />
                 ))}
             </ul>
-            <div>Total: {totalPrice.toFixed(2)}&euro;</div>
-            <button>Checkout</button>
+            <div className="relative bottom-0">
+                <div className="sticky bottom-0 bg-gray-200 dark:bg-gray-900 w-84 p-4 mr-2 rounded-2xl">
+                    <div className="black dark:text-gray-300 text-2xl">Total: {totalPrice.toFixed(2)}&euro;</div>
+                    <button className="px-2 py-1 bg-gray-700 text-white rounded-xl m-2 hover:bg-gray-800 transition-all cursor-pointer text-2xl">Checkout</button>
+                </div>
+
+            </div>
+
+
         </div>
     )
 }

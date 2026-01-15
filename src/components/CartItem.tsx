@@ -1,4 +1,5 @@
 import type { Game } from "../types/game"
+import { IoIosCloseCircle } from "react-icons/io";
 
 type CartItemProps = {
     name: string;
@@ -9,13 +10,13 @@ type CartItemProps = {
 
 export default function CartItem({ background_image, name, price, onClick}: CartItemProps) {
     return (
-        <li className="flex justify-center items-center gap-4 bg-gray-900 p-4 rounded-xl relative">
-            <img className="w-[50%]" src={background_image} alt="Game image" />
+        <li className="flex justify-center items-center gap-4  bg-gray-200 text-black dark:bg-gray-900 dark:text-white p-4 rounded-xl relative">
+            <img className="w-[50%] rounded-xl" src={background_image} alt="Game image" />
             <div className="flex flex-col">
                 <h1>{name}</h1>
-                <h4>{price}</h4>
+                <h4>{price} &euro;</h4>
             </div>
-            <button className="absolute top-2 right-2 px-2 py-1 rounded-full cursor-pointer bg-gray-700" onClick={onClick}>x</button>
+            <button className="absolute top-0 right-0 rounded-full cursor-pointer text-gray-00 dark:text-gray-400 hover:text-gray-900 hover:dark:text-gray-600 transition-all" onClick={onClick}><IoIosCloseCircle size={30}/></button>
         </li>
     )
 }
