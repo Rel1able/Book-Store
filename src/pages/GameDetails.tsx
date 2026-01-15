@@ -7,24 +7,14 @@ import { Loadingbar } from "../components/Loadingbar";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import ImageCarousel from "../components/ImageCarousel";
 import { MdStar } from "react-icons/md";
+import { useCart } from "../contexts/CartContext";
+import type { Game } from "../types/game";
 
 type Screenshot = {
     id: number;
     image: string;
 }
-type Genre = {
-    name: string;
-}
 
-type Game = {
-    rating: number;
-    name: string;
-    background_image: string;
-    description_raw: string;
-    website: string;
-    genres: Genre[];
-    released: string;
-}
 
 export default function GameDetails() {
     const [game, setGame] = useState<Game | null>();
@@ -33,6 +23,8 @@ export default function GameDetails() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const images = game ? [game.background_image, ...gameScreenshots.map((s) => s?.image)] : [];
     const { gameId } = useParams();
+
+    const {addToCart} = useCart();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -126,7 +118,7 @@ export default function GameDetails() {
                         </div>
                         <div className="mt-2 flex text-2xl justify-between p-2 font-bold bg-gray-100 rounded-xl dark:bg-gray-800 dark:text-white">
                             <div>{price} &euro;</div>
-                            <button className="cursor-pointer">Add to cart +</button>
+                            <button className="cursor-pointer" onClick={() => addToCart(game)}>Add to cart +</button>
                         </div>
                 </div>
             </div>
