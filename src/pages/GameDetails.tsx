@@ -9,7 +9,7 @@ import ImageCarousel from "../components/ImageCarousel";
 import { MdStar } from "react-icons/md";
 import { useCart } from "../contexts/CartContext";
 import type { Game } from "../types/game";
-
+import { MdDone } from "react-icons/md";
 type Screenshot = {
     id: number;
     image: string;
@@ -24,12 +24,13 @@ export default function GameDetails() {
     const images = game ? [game.background_image, ...gameScreenshots.map((s) => s?.image)] : [];
     const { gameId } = useParams();
 
-    const {addToCart} = useCart();
+    const { addToCart, cart } = useCart();
 
     const navigate = useNavigate();
     const location = useLocation();
 
     console.log(gameId);
+    const isInCart = cart.some((item) => item.id === game?.id);
 
     useEffect(() => {
 
@@ -64,10 +65,10 @@ export default function GameDetails() {
 
     }, [gameId])
 
-    function handleNavigateBack(){
-        if (location.state?.from){
+    function handleNavigateBack() {
+        if (location.state?.from) {
             navigate(location.state.from);
-        }else{
+        } else {
             navigate(-1);
         }
     }
@@ -92,34 +93,49 @@ export default function GameDetails() {
             <div className="flex justify-between items-center">
                 <ImageCarousel currentIndex={currentIndex} prevImage={prevImage} nextImage={nextImage} images={images} setIndex={setCurrentIndex} />
                 <div className="p-4 flex h-192 flex-col  gap-2 w-[40%]">
-                    
-                        <div className="p-2 rounded-2xl">
-                            <h2 className="text-2xl font-bold dark:text-white">Description</h2>
-                            <p className="dark:text-white overflow-scroll h-72 hide-scrollbar">
-                                {game.description_raw || "N/A"}
-                            </p>
-                        </div>
-                        <div>
-                            <ul className="bg-gray-100 rounded-xl flex-col flex gap-4 p-2 dark:bg-gray-600 dark:text-white flex-w">
-                                <li>
-                                    Website <a href={game.website}>{game.website}</a>
-                                </li>
-                                <li className="flex gap-2 flex-wr">
-                                    Genres:
-                                    <ul className="flex gap-2">
-                                        {game.genres.map((genre) => (
-                                            <li key={genre.name}>{genre.name}</li>
-                                        ))}
-                                    </ul>
-                                </li>
-                                <li>Release: {game.released ? formatDate(game.released) : "N/A"}</li>
-                                <li className="flex items-center gap-0.5">Rating: {game.rating}<div className="text-blue-400 relative bottom-px"><MdStar size={24}/></div></li>
-                            </ul>
-                        </div>
-                        <div className="mt-2 flex text-2xl justify-between p-2 font-bold bg-gray-100 rounded-xl dark:bg-gray-800 dark:text-white">
-                            <div>{price} &euro;</div>
-                            <button className="cursor-pointer" onClick={() => addToCart(game)}>Add to cart +</button>
-                        </div>
+
+                    <div className="p-2 rounded-2xl">
+                        <h2 className="text-2xl font-bold dark:text-white">Description</h2>
+                        <p className="dark:text-white overflow-scroll h-72 hide-scrollbar">
+                            {game.description_raw || "N/A"}
+                        </p>
+                    </div>
+                    <div>
+                        <ul className="bg-gray-100 rounded-xl flex-col flex gap-4 p-2 dark:bg-gray-600 dark:text-white flex-w">
+                            <li>
+                                Website <a href={game.website}>{game.website}</a>
+                            </li>
+                            <li className="flex gap-2 flex-wr">
+                                Genres:
+                                <ul className="flex gap-2">
+                                    {game.genres.map((genre) => (
+                                        <li key={genre.name}>{genre.name}</li>
+                                    ))}
+                                </ul>
+                            </li>
+                            <li>Release: {game.released ? formatDate(game.released) : "N/A"}</li>
+                            <li className="flex items-center gap-0.5">Rating: {game.rating}<div className="text-blue-400 relative bottom-px"><MdStar size={24} /></div></li>
+                        </ul>
+                    </div>
+                    <div className="mt-2 flex text-2xl justify-between p-2 font-bold bg-gray-100 rounded-xl dark:bg-gray-800 dark:text-white">
+                        <div>{price} &euro;</div>
+                        <button className={`cursor-pointer ${isInCart ? "text-green-600 font-medium" : ""}`} onClick={() =>
+                            addToCart({
+                                id: game.id,
+                                name: game.name,
+                                background_image: game.background_image,
+                                rating: game.rating,
+                                price: getGamePrice(game.rating),
+                            })
+                        }
+                        > {isInCart ? (
+                            <div className="flex items-center gap-1">
+                                Added to cart <MdDone size={16} />
+                            </div>
+                        ) : (
+                            "Add to cart +"
+                        )}</button>
+                    </div>
                 </div>
             </div>
         </div>
