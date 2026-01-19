@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "/", element: <StorePage /> },
-      { path: "/favorite", element: <Favorite/> },
+      { path: "/favorite", element: <Favorite /> },
       { path: "/library", element: <AddedGames /> },
       { path: "/games/:gameId", element: <GameDetails /> },
       { path: "/games/genre/:gameGenre", element: <GenreGames /> },
@@ -32,12 +32,14 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
 
-  <ThemeProvider>
-    <CartProvider>
-      <RouterProvider router={router} />
-    </CartProvider>
+  <StrictMode>
+    <ThemeProvider>
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
+    </ThemeProvider>
+  </StrictMode>
 
-  </ThemeProvider>
 
 
 )
