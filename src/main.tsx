@@ -10,7 +10,9 @@ import AddedGames from './pages/AddedGames.tsx'
 import GenreGames from './pages/GenreGames.tsx'
 import PopularInYear from './pages/PopularInYear.tsx'
 import ErrorPage from './pages/ErrorPage.tsx'
+import Favorite from './pages/Favorite.tsx'
 import { CartProvider } from './contexts/CartContext.tsx'
+import { FaV } from 'react-icons/fa6'
 
 const router = createBrowserRouter([
   {
@@ -18,7 +20,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "/", element: <StorePage /> },
-      { path: "/favorite", element: <div className="text-white">Favorite</div> },
+      { path: "/favorite", element: <Favorite/> },
       { path: "/library", element: <AddedGames /> },
       { path: "/games/:gameId", element: <GameDetails /> },
       { path: "/games/genre/:gameGenre", element: <GenreGames /> },

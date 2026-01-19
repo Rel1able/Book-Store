@@ -10,18 +10,26 @@ type CartProps = {
     setVisible: (value: boolean) => void
 }
 
-export default function Cart({setVisible}: CartProps) {
+export default function Cart({ setVisible }: CartProps) {
     const { cart, clearCart, removeFromCart } = useCart();
     const games = JSON.parse(localStorage.getItem("cart") || "[]");
     const navigate = useNavigate();
 
-    function handleCheckout(){
+    function handleCheckout() {
         if (cart.length === 0) return;
-        alert("Games were purchased");
+        
         const existingLibrary = JSON.parse(
-        localStorage.getItem("library") || "[]"
-    );
-        const updatedLibrary = [...existingLibrary, ...cart]
+            localStorage.getItem("library") || "[]"
+        );
+        const newGames = cart.filter(cartGame =>
+            !existingLibrary.some((libGame: {id: number}) => libGame.id === cartGame.id)
+        );
+        if (newGames.length === 0) {
+            alert("You already own all these games");
+            return;
+        }
+        alert("Games were purchased");
+        const updatedLibrary = [...existingLibrary, ...newGames]
         localStorage.setItem("library", JSON.stringify(updatedLibrary));
         clearCart();
         setVisible(false);
