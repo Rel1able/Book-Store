@@ -9,7 +9,7 @@ import { SiLichess } from "react-icons/si";
 import { RiSwordLine } from "react-icons/ri";
 import { SlPuzzle } from "react-icons/sl";
 
-export default function Navbar() {
+export default function Navbar({onClick}) {
 
     const iconSize = 32;
 
@@ -41,17 +41,17 @@ export default function Navbar() {
             <nav>
                 <ul>
                     {listItems.map((item, id) => (
-                        <li key={id} className="m-4 text-xl"><NavLink to={item.link} className={({ isActive }) =>
+                        <li key={id} className="m-4 text-xl" onClick={onClick}><NavLink to={item.link} className={({ isActive }) =>
                             `${navItemClass({ isActive })}`
                         }><span>{item.icon}</span>{item.name}</NavLink></li>
                     ))}
                 </ul>
-                <div className="ml-5 flex gap-3 text-xl"><NavLink to="/games/popular-in-year" className={({isActive}) => `${navItemClass({ isActive })}`}><BsGraphUpArrow size={24} />Popular in 2026</NavLink></div>
+                <div className="ml-5 flex gap-3 text-xl " onClick={onClick}><NavLink to="/games/popular-in-year" className={({isActive}) => `${navItemClass({ isActive })}`}><BsGraphUpArrow size={24} />Popular in 2026</NavLink></div>
                 <div className="mt-6">
                     <h1 className="ml-4 font-bold text-2xl mb-4">Genres</h1>
                     <ul className="flex flex-col gap-2">
                         {genresList.map((genre, id) => (
-                            <li key={id} className="ml-4 flex gap-2 text-xl"><NavLink to={genre.link} className={({isActive}) => `${navItemClass({ isActive })}`}><span>{genre.icon}</span>{genre.name}</NavLink></li>
+                            <li key={id} className="ml-4 flex gap-2 text-xl" onClick={onClick}><NavLink to={genre.link} className={({isActive}) => `${navItemClass({ isActive })}`}><span>{genre.icon}</span>{genre.name}</NavLink></li>
                         ))}
                     </ul>
                 </div>

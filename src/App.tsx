@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from "react";
 import Cart from "./components/Cart";
 import { useCart } from "./contexts/CartContext";
 import { BsList } from "react-icons/bs";
-import { Link } from "react-router";
 
 function App() {
   const [visible, setVisible] = useState(false);
@@ -35,7 +34,7 @@ function App() {
   return (
 
     <div className="flex items-start min-h-screen" >
-      <span className="hidden lg:block"><Navbar /></span>
+      <span className="hidden lg:block"><Navbar onClick={""}/></span>
 
 
 
@@ -59,8 +58,8 @@ function App() {
       </div>
 
       {opened &&
-        <div className="h-screen flex justify-center items-center absolute bg-gray-900 w-full">
-          <Navbar />
+        <div className="h-full fixed top-0 flex justify-center items-center bg-gray-900 w-full">
+          <Navbar onClick={() => setOpened(false)}/>
         </div>}
       {visible &&
         <div ref={cartRef}><Cart setVisible={setVisible} /></div>
