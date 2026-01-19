@@ -29,7 +29,13 @@ export default function Favorite() {
     }
 
 
-
+    if (library.length === 0) {
+        return (
+            <div className="flex flex-col gap-4 p-16 justify-center items-center">
+                <h1 className="font-bold text-4xl dark:text-white">No favorite games yet</h1>
+            </div>
+        );
+    }
     return (
         <div className="flex flex-col gap-8 p-16 justify-center items-center">
             <h1 className="font-bold text-4xl dark:text-white">Favorite</h1>
