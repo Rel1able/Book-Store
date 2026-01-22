@@ -39,8 +39,6 @@ export default function Store({ queryString, title }: StoreProps) {
 
     }
 
-
-
     const options = [
         { name: "Popularity", value: "-added" },
         { name: "Release date", value: "-released" },
