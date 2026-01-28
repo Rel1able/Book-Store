@@ -6,7 +6,6 @@ import Dropdown from "./Dropdown";
 import { Loadingbar } from "./Loadingbar";
 import { useSearchParams } from "react-router";
 
-
 type Game = {
     name: string
     background_image: string
