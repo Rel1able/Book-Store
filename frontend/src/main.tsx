@@ -12,7 +12,9 @@ import PopularInYear from './pages/PopularInYear.tsx'
 import ErrorPage from './pages/ErrorPage.tsx'
 import Favorite from './pages/Favorite.tsx'
 import { CartProvider } from './contexts/CartContext.tsx'
-
+import Register from './pages/Register.tsx'
+import Login from './pages/Login.tsx'
+import { AuthProvider } from './contexts/AuthContext.tsx'
 
 const router = createBrowserRouter([
   {
@@ -27,17 +29,23 @@ const router = createBrowserRouter([
       { path: "/games/popular-in-year", element: <PopularInYear /> }
     ],
     errorElement: <ErrorPage />
-  }
+  }, {
+    path: "/login",
+    element: <Login />
+  },
+  { path: "/register", element: <Register /> }
 ])
 
 createRoot(document.getElementById('root')!).render(
 
   <StrictMode>
-    <ThemeProvider>
-      <CartProvider>
-        <RouterProvider router={router} />
-      </CartProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <CartProvider>
+          <RouterProvider router={router} />
+        </CartProvider>
+      </ThemeProvider>
+    </AuthProvider>
   </StrictMode>
 
 

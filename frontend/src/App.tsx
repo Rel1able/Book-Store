@@ -6,6 +6,9 @@ import Cart from "./components/Cart";
 import { useCart } from "./contexts/CartContext";
 import { BsList } from "react-icons/bs";
 import CheckoutModal from "./components/CheckoutModal";
+import Header from "./components/Header";
+import { useContext } from "react";
+import { AuthContext } from "./contexts/AuthContext";
 
 function App() {
   const [isCartVisible, setCartVisible] = useState(false);
@@ -14,6 +17,29 @@ function App() {
 
   const cartRef = useRef<HTMLDivElement>(null);
   const { cart } = useCart();
+  const { setToken } = useContext(AuthContext);
+
+  function isTokenExpired(token: string) {
+    if (!token) return true;
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    const now = Math.floor(Date.now() / 1000);
+    return payload.exp < now;
+  }
+  
+  useEffect(() => {
+    function checkToken() {
+      const storedToken = localStorage.getItem("token");
+
+      if (storedToken && !isTokenExpired(storedToken)) {
+        setToken(storedToken);
+      } else {
+        localStorage.removeItem("token");
+        setToken(null);
+      }
+    }
+    checkToken();
+  }, [])
+
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -38,6 +64,7 @@ function App() {
     <div className="flex items-start min-h-screen w-full" >
       <span className="hidden lg:block"><Navbar onClick={() => null} /></span>
       <div className={`w-full h-full transition-all ${isCartVisible || showModal ? "blur-sm pointer-events-none" : ""}`}>
+        <Header />
         <Outlet />
       </div>
 
@@ -59,11 +86,11 @@ function App() {
           <Navbar onClick={() => setNavbarOpened(false)} />
         </div>}
       {isCartVisible &&
-        <div ref={cartRef}><Cart setVisible={setCartVisible} setShowModal={setShowModal}/></div>
+        <div ref={cartRef}><Cart setVisible={setCartVisible} setShowModal={setShowModal} /></div>
       }
       {showModal && (
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <CheckoutModal setShowModal={setShowModal}/>
+          <CheckoutModal setShowModal={setShowModal} />
         </div>
       )}
     </div>
